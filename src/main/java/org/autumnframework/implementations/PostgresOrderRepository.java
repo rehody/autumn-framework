@@ -5,9 +5,9 @@ import org.autumnframework.annotations.Component;
 import org.autumnframework.interfaces.OrderRepository;
 
 @Component
-public class InMemoryOrderRepository implements OrderRepository {
+public class PostgresOrderRepository implements OrderRepository {
     @Override
     public void save(Order order) {
-        System.out.println("Saving order...");
+        System.out.println("Saving order to postgres...");
     }
 }
