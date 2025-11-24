@@ -2,7 +2,7 @@ package org.autumnframework.infra;
 
 public class Application {
     public static ApplicationContext run() {
-        ApplicationContext context = ApplicationContext.getInstance();
+        ApplicationContext context = new ApplicationContext();
         ObjectFactory factory = new ObjectFactory(context);
         context.setFactory(factory);
         return context;

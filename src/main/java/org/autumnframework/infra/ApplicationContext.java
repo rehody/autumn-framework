@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ApplicationContext {
-    private static ApplicationContext INSTANCE;
     private final Map<Class, Object> componentRegistry;
 
     @Setter
@@ -21,17 +20,11 @@ public class ApplicationContext {
     @Getter
     private final Config config;
 
-    public static ApplicationContext getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new ApplicationContext();
-        }
-        return INSTANCE;
-    }
-
-    private ApplicationContext() {
+    public ApplicationContext() {
         Map<Class, Class> ifc2impl = ComponentPropertiesParser.getParsedProperties();
         this.config = new JavaConfig("org.autumnframework", ifc2impl);
         this.componentRegistry = new ConcurrentHashMap<>();
+        componentRegistry.put(ApplicationContext.class, this);
     }
 
     public <T> T getComponent(Class<T> type) {

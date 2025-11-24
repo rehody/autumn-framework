@@ -1,8 +1,10 @@
 package org.autumnframework.implementations;
 
 import org.autumnframework.annotations.Component;
+import org.autumnframework.annotations.Log;
 import org.autumnframework.interfaces.Notifier;
 
+@Log
 @Component
 public class ConsoleNotifier implements Notifier {
     @Override
