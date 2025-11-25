@@ -13,6 +13,9 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"unchecked", "rawtypes"})
 public class JavaConfig implements Config {
 
+    private final Reflections scanner;
+    private final Map<Class, Class> ifc2impl;
+
     public JavaConfig(String packageName) {
         this.scanner = new Reflections(packageName);
         this.ifc2impl = new HashMap<>();
@@ -28,9 +31,6 @@ public class JavaConfig implements Config {
             }
         });
     }
-
-    private final Reflections scanner;
-    private final Map<Class, Class> ifc2impl;
 
     @Override
     public <T> Class<? extends T> getImplementation(Class<T> type) {

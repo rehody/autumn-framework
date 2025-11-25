@@ -16,12 +16,12 @@ public class OrderService {
     @Inject
     private Notifier notifier;
 
+    @Value("greeting")
+    private String greeting;
+
     public OrderService() {
         System.out.println("Constructor done!");
     }
-
-    @Value("greeting")
-    private String greeting;
 
     @InitMethod
     private void initMethod() {

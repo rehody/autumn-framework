@@ -5,13 +5,13 @@ import org.autumnframework.annotations.InitMethod;
 import org.autumnframework.infra.configurators.BootstrapObjectConfigurator;
 import org.autumnframework.infra.configurators.BootstrapProxyConfigurator;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class ObjectFactory {
+
     private final List<BootstrapObjectConfigurator> objectConfigurators;
     private final List<BootstrapProxyConfigurator> proxyConfigurators;
     private final ApplicationContext context;
@@ -26,7 +26,8 @@ public class ObjectFactory {
         addProxyConfigurators(context);
     }
 
-    private void addObjectConfigurators(ApplicationContext context) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    @SneakyThrows
+    private void addObjectConfigurators(ApplicationContext context) {
         Set<Class<? extends BootstrapObjectConfigurator>> objectConfigurators =
                 context.getConfig().getScanner().getSubTypesOf(BootstrapObjectConfigurator.class);
 
@@ -35,7 +36,8 @@ public class ObjectFactory {
         }
     }
 
-    private void addProxyConfigurators(ApplicationContext context) throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    @SneakyThrows
+    private void addProxyConfigurators(ApplicationContext context) {
         Set<Class<? extends BootstrapProxyConfigurator>> proxyConfigurators =
                 context.getConfig().getScanner().getSubTypesOf(BootstrapProxyConfigurator.class);
 
@@ -60,7 +62,8 @@ public class ObjectFactory {
         return t;
     }
 
-    private <T> void invokeInitMethod(Class<T> impl, T t) throws IllegalAccessException, InvocationTargetException {
+    @SneakyThrows
+    private <T> void invokeInitMethod(Class<T> impl, T t) {
         for (Method method : impl.getDeclaredMethods()) {
             if (method.isAnnotationPresent(InitMethod.class)) {
                 method.setAccessible(true);

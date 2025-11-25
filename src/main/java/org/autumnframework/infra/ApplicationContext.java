@@ -12,13 +12,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ApplicationContext {
-    private final Map<Class, Object> componentRegistry;
 
-    @Setter
-    private ObjectFactory factory;
+    private final Map<Class, Object> componentRegistry;
 
     @Getter
     private final Config config;
+
+    @Setter
+    private ObjectFactory factory;
 
     public ApplicationContext() {
         Map<Class, Class> ifc2impl = ComponentPropertiesParser.getParsedProperties();
@@ -30,19 +31,17 @@ public class ApplicationContext {
     public <T> T getComponent(Class<T> type) {
         if (componentRegistry.containsKey(type)) {
             return (T) componentRegistry.get(type);
-            // Получение существующего экземпляра компонента,
-            // если уже существует в реестре
         }
 
         Class<? extends T> impl = type;
         if (type.isInterface()) {
-            impl = config.getImplementation(type); // Поиск реализации, если тип - интерфейс
+            impl = config.getImplementation(type);
         }
 
-        T t = factory.createObject(impl); // Создание и настройка экземпляра в фабрике
+        T t = factory.createObject(impl);
 
         if (impl.isAnnotationPresent(Component.class)) {
-            componentRegistry.put(type, t); // Кеширование компонента для последующего переиспользования
+            componentRegistry.put(type, t);
             return t;
         }
 
