@@ -2,7 +2,7 @@ package org.autumnframework.infra;
 
 import lombok.SneakyThrows;
 import org.autumnframework.annotations.InitMethod;
-import org.autumnframework.infra.configurators.BootstrapObjectConfigurator;
+import org.autumnframework.infra.configurators.BootstrapComponentConfigurator;
 import org.autumnframework.infra.configurators.BootstrapProxyConfigurator;
 
 import java.lang.reflect.Method;
@@ -10,29 +10,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ObjectFactory {
+public class ComponentFactory {
 
-    private final List<BootstrapObjectConfigurator> objectConfigurators;
+    private final List<BootstrapComponentConfigurator> componentConfigurators;
     private final List<BootstrapProxyConfigurator> proxyConfigurators;
     private final ApplicationContext context;
 
     @SneakyThrows
-    public ObjectFactory(ApplicationContext context) {
+    public ComponentFactory(ApplicationContext context) {
         this.context = context;
-        this.objectConfigurators = new ArrayList<>();
+        this.componentConfigurators = new ArrayList<>();
         this.proxyConfigurators = new ArrayList<>();
 
-        addObjectConfigurators(context);
+        addComponentConfigurators(context);
         addProxyConfigurators(context);
     }
 
     @SneakyThrows
-    private void addObjectConfigurators(ApplicationContext context) {
-        Set<Class<? extends BootstrapObjectConfigurator>> objectConfigurators =
-                context.getConfig().getScanner().getSubTypesOf(BootstrapObjectConfigurator.class);
+    private void addComponentConfigurators(ApplicationContext context) {
+        Set<Class<? extends BootstrapComponentConfigurator>> componentConfigurators =
+                context.getConfig().getScanner().getSubTypesOf(BootstrapComponentConfigurator.class);
 
-        for (Class<? extends BootstrapObjectConfigurator> configurator : objectConfigurators) {
-            this.objectConfigurators.add(configurator.getDeclaredConstructor().newInstance());
+        for (Class<? extends BootstrapComponentConfigurator> configurator : componentConfigurators) {
+            this.componentConfigurators.add(configurator.getDeclaredConstructor().newInstance());
         }
     }
 
@@ -47,7 +47,7 @@ public class ObjectFactory {
     }
 
     @SneakyThrows
-    public <T> T createObject(Class<T> impl) {
+    public <T> T createComponent(Class<T> impl) {
         T t = impl.getDeclaredConstructor().newInstance();
         configure(t);
         invokeInitMethod(impl, t);
@@ -73,6 +73,6 @@ public class ObjectFactory {
     }
 
     private <T> void configure(T t) {
-        objectConfigurators.forEach(configurator -> configurator.configure(t, context));
+        componentConfigurators.forEach(configurator -> configurator.configure(t, context));
     }
 }

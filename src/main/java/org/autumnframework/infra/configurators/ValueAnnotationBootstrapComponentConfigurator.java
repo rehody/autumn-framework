@@ -8,7 +8,7 @@ import org.autumnframework.infra.parsers.ValuePropertiesParser;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-public class ValueAnnotationBootstrapObjectConfigurator implements BootstrapObjectConfigurator {
+public class ValueAnnotationBootstrapComponentConfigurator implements BootstrapComponentConfigurator {
     @SneakyThrows
     @Override
     public void configure(Object o, ApplicationContext context) {

@@ -7,7 +7,7 @@ public class Application {
 
     public static ApplicationContext run() {
         ApplicationContext context = new ApplicationContext();
-        ObjectFactory factory = new ObjectFactory(context);
+        ComponentFactory factory = new ComponentFactory(context);
         context.setFactory(factory);
         return context;
     }

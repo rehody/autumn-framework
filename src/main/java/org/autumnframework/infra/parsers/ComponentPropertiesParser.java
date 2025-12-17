@@ -8,6 +8,8 @@ import java.util.Map;
 @SuppressWarnings("rawtypes")
 public class ComponentPropertiesParser extends AbstractPropertiesParser {
 
+    private static final String DEFAULT_PROPERTY_FILE_NAME = "component.properties";
+
     @SneakyThrows
     public static Map<Class, Class> getParsedProperties(String propertyFileName) {
         Map<String, String> ifc2implString = getParsedProperties0(propertyFileName);
@@ -27,6 +29,6 @@ public class ComponentPropertiesParser extends AbstractPropertiesParser {
     }
 
     public static Map<Class, Class> getParsedProperties() {
-        return getParsedProperties("component.properties");
+        return getParsedProperties(DEFAULT_PROPERTY_FILE_NAME);
     }
 }

@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
-public class AbstractPropertiesParser {
+public abstract class AbstractPropertiesParser {
     @SneakyThrows
     protected static Map<String, String> getParsedProperties0(String propertyFileName) {
         Map<String, String> propertiesMap = new HashMap<>();

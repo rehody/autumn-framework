@@ -19,7 +19,7 @@ public class ApplicationContext {
     private final Config config;
 
     @Setter
-    private ObjectFactory factory;
+    private ComponentFactory factory;
 
     public ApplicationContext() {
         Map<Class, Class> ifc2impl = ComponentPropertiesParser.getParsedProperties();
@@ -38,7 +38,7 @@ public class ApplicationContext {
             impl = config.getImplementation(type);
         }
 
-        T t = factory.createObject(impl);
+        T t = factory.createComponent(impl);
 
         if (impl.isAnnotationPresent(Component.class)) {
             componentRegistry.put(type, t);

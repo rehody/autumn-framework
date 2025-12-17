@@ -6,7 +6,7 @@ import org.autumnframework.infra.ApplicationContext;
 
 import java.lang.reflect.Field;
 
-public class InjectAnnotationBootstrapObjectConfigurator implements BootstrapObjectConfigurator {
+public class InjectAnnotationBootstrapComponentConfigurator implements BootstrapComponentConfigurator {
     @Override
     @SneakyThrows
     public void configure(Object o, ApplicationContext context) {
